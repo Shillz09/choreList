@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">ChoreList</string>
+    <string name="toggle_complete">Toggle Complete</string>
+    <string name="edit_chore">Edit Chore</string>
+    <string name="add_chore">Add Chore</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="chore_list">Chore List</string>
+    <string name="submit">Submit</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="chore_title">Chore Title</string>
+    <string name="add_subtask">Add Subtask</string>
+    <string name="subtasks">Subtasks</string>
+    <string name="subtask_title">Subtask Title</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="new_subtask">Add a new Subtask</string>
+
+</resources>
