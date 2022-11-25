@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/ChoreListFragment">
-
+    <!-- ChoreListFragment
+        Can go to either AddChore or EditChore -->
     <fragment
         android:id="@+id/ChoreListFragment"
         android:name="seng564.chorelist.ChoreListFragment"
@@ -19,26 +20,26 @@
             app:destination="@id/editChoreFragment" />
     </fragment>
 
+    <!-- AddChoreFragment
+        Only action is to return to ChoreList -->
     <fragment
         android:id="@+id/AddChoreFragment"
         android:name="seng564.chorelist.AddChoreFragment"
         android:label="@string/add_chore"
         tools:layout="@layout/fragment_add_chore">
-
         <action
             android:id="@+id/action_AddChore_to_ChoreList"
             app:destination="@id/ChoreListFragment" />
     </fragment>
-
+    <!-- EditChoreFragment
+        Only action is to return to ChoreList -->
     <fragment
         android:id="@+id/editChoreFragment"
         android:name="seng564.chorelist.EditChoreFragment"
         android:label="@string/edit_chore"
         tools:layout="@layout/fragment_edit_chore" >
-
         <action
             android:id="@+id/action_editChore_to_ChoreList"
             app:destination="@id/ChoreListFragment" />
-
     </fragment>
 </navigation>

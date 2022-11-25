@@ -38,32 +38,34 @@ public class EditChoreFragment extends Fragment {
         return binding.getRoot();
     }
 
-    //Get the chore that we are editting from the list
-    //Set the Input Fields to existing Chore/Subtask text
+    //Get the chore that we are editing from the list
+    //The choreInt value should be added and passed by the ChoreListFragment
+    // from the LongCLickListener, which takes us to this fragment
+    //Setup all the Input Fields with existing Chore/Subtask titles
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Get Chore item to Edit
         chore = ChoreList.getChore(getArguments().getInt("choreInt"));
         binding.choreTitleInput.setText(chore.getTitle());
+        //Dynamically add Subtask input field for each subtask
         for(Subtask s:chore.getSubtaskArray()){
             addSubtaskInput(s.getTitle());
         }
-
         //Add listeners to buttons
         addButtonListeners();
     }
 
     //Add listeners to buttons
     private void addButtonListeners() {
-        //Listener for new Subtask Input field
+        //Listener for new (blank) Subtask input field
         binding.buttonNewSubtask.setOnClickListener(view1 -> addSubtaskInput());
-        //Listener for Saving Chore
+        //Listener for Saving Chore and returning to ChoreListFragment
         binding.buttonSave.setOnClickListener(view1 -> {
             saveChore();
             NavHostFragment.findNavController(EditChoreFragment.this)
                     .navigate(R.id.action_editChore_to_ChoreList);
         });
-        //Listener for Delete
+        //Listener for Deleting this Chore
         binding.buttonDelete.setOnClickListener(view -> {
             ChoreList.removeChore(chore);
             NavHostFragment.findNavController(EditChoreFragment.this)
@@ -71,7 +73,7 @@ public class EditChoreFragment extends Fragment {
         });
     }
 
-    //Technically, we replace the existing chore with a new chore
+    //Technically, we replace the existing chore with a new chore...
     //Simiar to addChore() from AddChoreFragment
     //TODO: Move logic to static helper class
     private void saveChore(){
@@ -79,7 +81,7 @@ public class EditChoreFragment extends Fragment {
         for(int i=1; i<=numberOfSubs; i++){
             EditText et = (EditText) binding.getRoot().findViewById(i);
             String subText = et.getText().toString();
-            //Ignore Subtask Inputs that are blank or all whitespace
+            //Ignore Subtask inputs that are blank or all whitespace
             if(subText.isEmpty() || subText.matches("\\s*")){
                 continue;
             }

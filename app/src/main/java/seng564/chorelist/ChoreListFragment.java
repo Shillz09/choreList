@@ -61,7 +61,9 @@ public class ChoreListFragment extends Fragment {
 
     //Get ExpandableListView binding
     //Add custom Chore Expandable List View
-    //Add listeners to buttons
+    //ExpandableListView will automatically use custom adapter
+    // to add Chores and Subtasks to the view
+    //Also add listeners to groups
     private void loadListView() {
         listView = binding.expandableListView.findViewById(R.id.expandableListView);
         listAdapter = new ChoreExpandableListAdapter(getActivity(), this);
@@ -91,8 +93,11 @@ public class ChoreListFragment extends Fragment {
     */
 
         listView.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            //If LongCLick is on a group, do something
             if(ExpandableListView.getPackedPositionType(l) == ExpandableListView.PACKED_POSITION_TYPE_GROUP){
                 int groupPosition = ExpandableListView.getPackedPositionGroup(l);
+                //Put chore position into a bundle so it can be passed to EditChoreFragment
+                // so we know which Chore to edit.
                 Bundle choreBundle = new Bundle();
                 choreBundle.putInt("choreInt", groupPosition);
                 NavHostFragment.findNavController(ChoreListFragment.this)

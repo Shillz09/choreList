@@ -26,7 +26,9 @@ import java.io.File;
 import java.io.IOException;
 
 //Main -- START HERE
-//Related layout:  activity_main.xml
+//Related layouts:  activity_main.xml & content_main.xml
+//content_main adds the navigation graph and default fragment
+//nav_graph defines how we jump from fragment to fragment and back
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         //Initiate NavController (Fragments = screens)
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        //Setup navigation with AppBar (toolbar)
+        //For us, this only includes the "back" or NavigateUp button
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
@@ -99,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Navigate for "back" button
+    //Defaults to returning to previous screen.
+    //Only displays on AddChore or EditChore
+    // - does not Add/Save chore on these fragments
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
