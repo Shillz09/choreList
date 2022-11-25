@@ -1,3 +1,9 @@
+/*
+Anthony Shillingburg
+SENG564 - Fall 2022
+Individual Application
+ */
+
 package seng564.chorelist;
 
 import android.util.Log;
@@ -28,15 +34,16 @@ public class Subtask {
         this.isComplete = false;
         //We should only be here on START_TAG <Subtask>
         //Process until END_TAG </Subtask>
-        int event = xpp.next();
-        while(event != XmlPullParser.END_TAG){
-            switch(event){
+        while(xpp.getEventType() != XmlPullParser.END_TAG){
+            switch(xpp.getEventType()){
                 case XmlPullParser.START_TAG:
                     processTag(xpp);
+                    xpp.next();
                     break;
+
                 //Add more cases as the XML document grows more complex
                 default:
-                    Log.d("XML.Subtask","Unknown event: "+event);
+                    Log.d("XML.Subtask","Unknown event: "+xpp.getEventType());
                     xpp.next();
                     break;
             }
@@ -54,46 +61,49 @@ public class Subtask {
         switch (xpp.getName()) {
             case "Title":
                 this.title = xpp.nextText(); //Ends on </Title>
-                xpp.next();
+                break;
+            //Let's Gooooooooo!   (Mountaineers!)
+            case "Subtask":
+                break;
             //Add more cases as the XML doc grows more complex
+            //Parent loop will move to next element
             default:
-                Log.d("XML.Subtask", "Unknown Tag: "+xpp.getName());
-                xpp.next();
+                Log.d("XML.Subtask", "Unknown Tag: "+xpp.getName()+" Event: "+xpp.getEventType());
                 break;
         }
     }
 
+    //Return title
     public String getTitle() {
         return title;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    //Return boolean
+    //True = Complete; False = Active
     public Boolean isComplete() {
         return this.isComplete;
     }
-
+    //Set boolean true
     public void markComplete() {
         this.isComplete = true;
-        Log.d("Subtask", "Completed: "+this.title);
     }
-
+    //Set boolean false
     public void markActive(){
         this.isComplete = false;
     }
-
+    //Returns title for now
     public String toString(){
         return this.title;
     }
-
+    //Write XML
+    //XmlSerializer should already have output file set by ChoreList
     public void writeXML(XmlSerializer xml) throws IOException {
-        Log.d("XML.Subtask","Writing subtask: "+title);
+        //Start Subtask
         xml.startTag(null, "Subtask");
+        //Title
         xml.startTag(null, "Title");
         xml.text(title);
         xml.endTag(null,"Title");
+        //End Subtask
         xml.endTag(null,"Subtask");
     }
 

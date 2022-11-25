@@ -1,10 +1,15 @@
-package seng564.chorelist;
+/*
+Anthony Shillingburg
+SENG564 - Fall 2022
+Individual Application
+ */
 
-import android.util.Log;
+package seng564.chorelist;
 
 import java.util.ArrayList;
 
-public class TestChores {
+//Used to build sample chore list if no backup file
+public class SampleChores {
 
     public static ArrayList<Chore> addChores() {
         ArrayList<Chore> choreList = new ArrayList<Chore>();
@@ -21,11 +26,6 @@ public class TestChores {
         homework.addSubtask("Case Study 3");
         homework.addSubtask("Final exam questions");
         choreList.add(homework);
-
-        Chore bibleStudy = new Chore("Bible Study");
-        bibleStudy.addSubtask("Answer questions");
-        bibleStudy.addSubtask("Write prayer");
-        choreList.add(bibleStudy);
 
         Chore newLights = new Chore("New Light Fixtures");
         newLights.addSubtask("Hallway");

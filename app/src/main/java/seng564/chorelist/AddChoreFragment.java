@@ -1,3 +1,9 @@
+/*
+Anthony Shillingburg
+SENG564 - Fall 2022
+Individual Application
+ */
+
 package seng564.chorelist;
 
 import android.os.Bundle;
@@ -18,12 +24,13 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import seng564.chorelist.databinding.FragmentAddChoreBinding;
 
-
+//Fragment (screen) for adding a new chore
 public class AddChoreFragment extends Fragment {
 
     private FragmentAddChoreBinding binding;
     private int numberOfSubs = 0;
 
+    //Inflate binding
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,15 +38,19 @@ public class AddChoreFragment extends Fragment {
         return binding.getRoot();
     }
 
+    //Setup buttons
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //On "Submit" - Add chore to list & navigate back to main
         binding.buttonSubmit.setOnClickListener(view1 -> {
             addNewChore();
             NavHostFragment.findNavController(AddChoreFragment.this)
                     .navigate(R.id.action_AddChore_to_ChoreList);
         });
 
+        //Listener for hitting "send" on the keyboard while in the Chore Title Input item
+        //Add chore to list & navigate back to main
         binding.choreTitleInput.setOnEditorActionListener((textView, actionID, keyEvent) -> {
             boolean isBool = false;
             if(actionID == EditorInfo.IME_ACTION_SEND){
@@ -51,16 +62,22 @@ public class AddChoreFragment extends Fragment {
             return isBool;
         });
 
+        //Add initial Subtask input field
         addSubtaskInput();
+        //Listener to add new subtask inputs on button click
         binding.buttonNewSubtask.setOnClickListener(view1 -> addSubtaskInput());
     }
 
+    //Create chore, add all the subtasks, then add to ChoreList.
+    //Similar to saveChore() method from EditChoreFragment.
+    //TODO: Move to static helper class for dynamic layout
     private void addNewChore(){
         Chore c = new Chore(binding.choreTitleInput.getText().toString());
         for(int i=1; i<=numberOfSubs; i++){
             EditText et = (EditText) binding.getRoot().findViewById(i);
             String subText = et.getText().toString();
-            if(subText.isEmpty() || subText.trim() == "" || subText.matches("\\s*")){
+            //Ignore empty or blank subtask input fields
+            if(subText.isEmpty() || subText.matches("\\s*")){
                 continue;
             }
             c.addSubtask(new Subtask(subText));
@@ -68,13 +85,18 @@ public class AddChoreFragment extends Fragment {
         ChoreList.addChore(c);
     }
 
+    //Add another input field for another subtask
+    //Duplicate method found in EditChoreFragment.
+    //TODO: Move to static helper class for dynamic layout
     private void addSubtaskInput(){
+        //Get Layout & editText parameters
         LinearLayout ll = (LinearLayout) binding.getRoot().findViewById(R.id.addChoreLayout);
         LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         editTextParams.setMargins(10, 10, 10, 0);
 
+        //Create EditText item
         EditText et = new EditText(getContext());
         et.setLayoutParams(editTextParams);
         et.setHint(R.string.subtask_title);
@@ -82,6 +104,8 @@ public class AddChoreFragment extends Fragment {
         et.setInputType(InputType.TYPE_CLASS_TEXT);
         et.setId(++numberOfSubs);
 
+        //Add the listener for "send" on the keyboard
+        //Add chore & navigate back to main screen
         et.setOnEditorActionListener((textView, actionID, keyEvent) -> {
             boolean isSend = false;
             if(actionID == EditorInfo.IME_ACTION_SEND){
@@ -93,6 +117,7 @@ public class AddChoreFragment extends Fragment {
             return isSend;
         });
 
+        //Add input field to layout
         ll.addView(et);
     }
 
